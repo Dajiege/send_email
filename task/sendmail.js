@@ -15,8 +15,8 @@ var send = function(cb){
             secureConnection: true,
             port:465,
             auth: {
-                user: '18621303280@163.com',
-                pass: 'lzj19931113'
+                user: '***@163.com',
+                pass: '***'
             }
         });
         function jsonpCallback(a){
@@ -38,8 +38,9 @@ var send = function(cb){
         mongo.selectData({'id': 'price'},'mystatus',{},function(result){
             if(result.length !== 0){
                 var price = result[0].price;
+                var push = result[0].pushprice;
                 var flag = result[0].status;
-                if(parseFloat(arr[1]) < (price-50) && !flag){
+                if(parseFloat(arr[1]) < (price+push) && !flag){
                     transporter.sendMail(mailOptions,function(err,res){
                         console.log(res);
                         var data = {'status' : true};

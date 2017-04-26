@@ -19,7 +19,12 @@
       </div>
       <form action="">
           <div class="modal-body">
-            请输入收购价：<input type="num" class="input" name="price">
+            <div class="form-group">
+                请输入收购价：<input type="num" class="input" name="price">
+            </div>
+            <div class="form-group">
+                预期推送条件：<input type="num" class="input" name="pushprice">（做空填负值，如：-50，买入填正值，如：50）
+            </div>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
