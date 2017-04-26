@@ -2,11 +2,34 @@
 <html>
   <head>
     <title>数据</title>
+    <link rel="stylesheet" href="/stylesheets/bootstrap.min.css">
     <link rel='stylesheet' href='/stylesheets/style.css' />
   </head>
   <body>
+    <button data-toggle="modal" data-target="#changePrice" class="btn btn-default">修改购买价格</button><br>
     涨跌幅：<span><%= data[0] %></span><br>
     当前价：<span><%= data[1] %></span><br>
-    收购价：<span>2315</span>
+
+<div class="modal" id="changePrice" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">修改购买价格</h4>
+      </div>
+      <form action="">
+          <div class="modal-body">
+            请输入收购价：<input type="num" class="input" name="price">
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            <button type="submit" class="btn btn-primary">确认</button>
+          </div>
+      </form>
+    </div>
+  </div>
+</div>
+    <script src="/javascripts/jquery.min.js"></script>
+    <script src="/javascripts/bootstrap.min.js"></script>
   </body>
 </html>

@@ -16,6 +16,7 @@
     "node-schedule": "^1.2.0",
     "superagent": "latest",
     "superagent-charset": "latest",
-    "nodemailer": "^0.7.1"
+    "nodemailer": "^0.7.1",
+    "mongodb": "latest"
   }
 }

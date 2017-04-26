@@ -1,6 +1,7 @@
 var request = require('superagent');
 require('superagent-charset')(request);
 var nodemailer = require("nodemailer");
+var mongo = require('../seriver/mongoutil');
 var send = function(cb){
     request
     .get('http://ta.hncae.net/front/hq/delay_hq.json')
@@ -14,8 +15,8 @@ var send = function(cb){
             secureConnection: true,
             port:465,
             auth: {
-                user: '***@163.com',
-                pass: '***'
+                user: '18621303280@163.com',
+                pass: 'lzj19931113'
             }
         });
         function jsonpCallback(a){
@@ -34,11 +35,19 @@ var send = function(cb){
             text: '抽奖', // plain text body
             html: '<b>涨跌幅：</b>' + arr[0] + '<br><b>当前价：</b>' + arr[1]// html body
         };
-        if(parseFloat(arr[1]) < 2520){
-            transporter.sendMail(mailOptions,function(err,res){
-                console.log(res);
-            })
-        }
+        mongo.selectData({'id': 'price'},'mystatus',{},function(result){
+            if(result.length !== 0){
+                var price = result[0].price;
+                var flag = result[0].status;
+                if(parseFloat(arr[1]) < (price-50) && !flag){
+                    transporter.sendMail(mailOptions,function(err,res){
+                        console.log(res);
+                        var data = {'status' : true};
+                        mongo.updateData(data,{'id': 'price'},'mystatus');
+                    })
+                }
+            }
+        });
         if(cb){
             cb(arr);
         }
