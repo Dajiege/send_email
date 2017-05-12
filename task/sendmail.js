@@ -31,7 +31,7 @@ var send = function(cb){
             }
             var mailOptions = {
                 from: '"lin" <18621303280@163.com>', // sender address
-                to: '5175248@qq.com,522428268@qq.com', // list of receivers
+                to: '5175248@qq.com', // list of receivers
                 subject: '涨跌情况', // Subject line
                 text: '抽奖', // plain text body
                 html: '<b>涨跌幅：</b>' + arr[0] + '<br><b>当前价：</b>' + arr[1]// html body
@@ -41,13 +41,25 @@ var send = function(cb){
                     var price = result[0].price;
                     var push = result[0].pushprice;
                     var flag = result[0].status;
-                    if(parseFloat(arr[1]) < (price+push) && !flag){
-                        transporter.sendMail(mailOptions,function(err,res){
-                            console.log(res);
-                            var data = {'status' : true};
-                            mongo.updateData(data,{'id': 'price'},'mystatus');
-                        })
+                    //  做空判断
+                    if(push < 0){
+                        if(parseFloat(arr[1]) < (price+push) && !flag && arr[1]){
+                            transporter.sendMail(mailOptions,function(err,res){
+                                console.log(res);
+                                var data = {'status' : true};
+                                mongo.updateData(data,{'id': 'price'},'mystatus');
+                            })
+                        }
+                    } else {  // 买入判断
+                        if(parseFloat(arr[1]) > (price+push) && !flag && arr[1]){
+                            transporter.sendMail(mailOptions,function(err,res){
+                                console.log(res);
+                                var data = {'status' : true};
+                                mongo.updateData(data,{'id': 'price'},'mystatus');
+                            })
+                        }
                     }
+                    
                 }
             });
         } else {
